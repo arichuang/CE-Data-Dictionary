@@ -54,13 +54,6 @@ function ExecSQL {
                 Where t.xtype = 'U'
                 "
 
-    $htmlParams = @{
-        Title = "Data Dictionary for $GetDBName"
-        Body = "<P><b>$GetDBName Ver. $($GetVersion.PackageName) </b></P>"
-#        PreContent = "Database: $GetDBName"
-#        PostContent = ""
-    }
-
     $Report = $null
     foreach ($tbl in $GetTables.Table_name) {
         Write-Host $tbl
