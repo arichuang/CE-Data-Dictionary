@@ -2,47 +2,30 @@
 
 dTemp = """/* created with ERDot < https://github.com/ehne/ERDot > */
 digraph ERDiagram {
-    graph [
-        nodesep=0.2;
-        rankdir="LR";
-        concentrate=true;
-        beautify=true;
-        splines="spline";
-        fontname="Helvetica";
-        bgcolor="lightgray";
-        pad="5,5",
-        label="{{lbl}}",
-        {{gs}}
-    ];
-    
-    node [shape=shape, fontname="Helvetica", fontsize=12, fillcolor="white", style="filled", color="black", penwidth=1.0, margin="0.05,0.05"];
-    edge [
-        dir=both,
-        fontsize=12,
-        arrowsize=0.9,
-        color="red",
-        penwidth=1.0,
-        labelangle=32,
-        labeldistance=1.8,
-        fontname="Helvetica"
-    ];
+ranksep=.25;
+
+node [shape=plaintext, fontsize=48];
+/* the tiers */
+0 -> 1 -> 2 -> 3 -> 4;
+
+node [shape=box, fontsize=14, style="rounded"];
+/* the tables */
 
     % for i in tables:
-    "{{i}}" [shape=none, margin=0, label=<
-        <table border="0" cellborder="0" cellspacing="0" >
+    "{{i}}" [label=<
+        <table border="0" cellborder="0" cellspacing="0">
         <tr><td colspan="2"><i>{{i}}</i></td></tr>
     % for k in tables[i]:
         <tr>
             <td port="{{k.replace('+', '').replace('*', '').replace('!', '')}}" align="left" cellpadding="3">
             % if "+" in k or "*" in k:
-<b>{{k.replace("+","FK ").replace("*","PK ")}}</b>
+<b>{{k.replace("+","FK ").replace("*","PK ")}}</b></td>
             % elif "!" in k:
-<u><i>{{k.replace("!","")}}</i></u>
+<u><i>{{k.replace("!","")}}</i></u></td>
             % else:
-{{k}}
+{{k}}</td>
             % end
-            </td>        
-            <td align="right" cellpadding="3">{{tables[i][k]}}</td>
+            <td port="{{k.replace('+', '').replace('*', '').replace('!', '')}}" align="right" cellpadding="3">{{tables[i][k]}}</td>
         </tr>
     % end
     </table>>];
@@ -66,7 +49,6 @@ digraph ERDiagram {
     % else:
         arrowhead=normal,
     % end
-
     % if LeftCardinality =="*":
         arrowtail=normal,
     % elif LeftCardinality == "+":
@@ -75,9 +57,7 @@ digraph ERDiagram {
         arrowtail=normal,
     % end
     ];
-
     % end
-
 
     {{ra}}
 
